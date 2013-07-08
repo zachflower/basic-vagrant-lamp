@@ -41,6 +41,7 @@ There are a few things going on in here, first of which is the package listings.
 * apache2
 * libapache2-mod-php5
 
+### Configuration File Management
 After these packages are installed, we need to ensure the configurations are consistent and usable. Using the `file` parameter, we can tell Puppet to ensure that our MySQL and Apache configuration files are always the same as the local versions of those files. In this case `puppet/files/mysql/my.cnf` and `puppet/files/apache/default` respectively.
 
     file { "/etc/mysql/my.cnf":
@@ -52,6 +53,7 @@ After these packages are installed, we need to ensure the configurations are con
         source => "/vagrant/puppet/files/mysql/my.cnf"
     }
 
+### Process Management
 Puppet also ensures that Apache and MySQL are always running, using the `exec` parameter:
 
     service { "mysql":
@@ -59,6 +61,7 @@ Puppet also ensures that Apache and MySQL are always running, using the `exec` p
         require => Package["mysql-server"]
     }
 
+### MySQL User Provisioning
 In the case of MySQL, Puppet also has to run a shell command to ensure there is a root user with no password that can be accessed from **outside** Vagrant (in the case of SequelPro, or other MySQL clients).
 
     exec { "create-db-schema-and-user":
